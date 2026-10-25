@@ -1,0 +1,82 @@
+[
+  {
+    "id": 2,
+    "name": "Node.js and Express",
+    "description": "Build REST APIs with Node.js and the Express framework.",
+    "target_date": "2026-01-15",
+    "status": "In Progress",
+    "created_at": "2025-11-05 09:15:00"
+  },
+  {
+    "id": 3,
+    "name": "Git and GitHub",
+    "description": "Understand version control, branching, and pull requests.",
+    "target_date": "2025-11-20",
+    "status": "Completed",
+    "created_at": "2025-11-01 14:45:00"
+  },
+  {
+    "id": 4,
+    "name": "JavaScript Fundamentals",
+    "description": "Learn variables, functions, arrays, objects, and ES6 features.",
+    "target_date": "2026-02-10",
+    "status": "Not Started",
+    "created_at": "2025-11-06 08:00:00"
+  },
+  {
+    "id": 5,
+    "name": "HTML and CSS",
+    "description": "Build responsive web pages with semantic HTML and modern CSS.",
+    "target_date": "2025-12-15",
+    "status": "In Progress",
+    "created_at": "2025-11-02 11:20:00"
+  },
+  {
+    "id": 6,
+    "name": "SQL Fundamentals",
+    "description": "Learn relational databases, SELECT queries, joins, and indexes.",
+    "target_date": "2026-03-01",
+    "status": "Not Started",
+    "created_at": "2025-11-07 16:05:00"
+  },
+  {
+    "id": 7,
+    "name": "REST API Design",
+    "description": "Understand HTTP methods, status codes, and RESTful resource design.",
+    "target_date": "2026-01-05",
+    "status": "In Progress",
+    "created_at": "2025-11-03 13:40:00"
+  },
+  {
+    "id": 8,
+    "name": "Docker Essentials",
+    "description": "Containerize applications with Dockerfiles and Docker Compose.",
+    "target_date": "2026-02-20",
+    "status": "Not Started",
+    "created_at": "2025-11-08 10:10:00"
+  },
+  {
+    "id": 9,
+    "name": "Testing with Jest",
+    "description": "Write unit and integration tests for JavaScript applications.",
+    "target_date": "2026-01-25",
+    "status": "Not Started",
+    "created_at": "2025-11-09 15:30:00"
+  },
+  {
+    "id": 10,
+    "name": "Cloud Deployment Basics",
+    "description": "Deploy Node.js apps to a cloud platform and manage environment variables.",
+    "target_date": "2025-11-30",
+    "status": "Completed",
+    "created_at": "2025-11-10 09:50:00"
+  },
+  {
+    "id": 11,
+    "name": "Python Basics",
+    "description": "Learn Python fundamentals",
+    "target_date": "2025-12-31",
+    "status": "Not Started",
+    "created_at": "2026-10-25 15:40:28"
+  }
+]
