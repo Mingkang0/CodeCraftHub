@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeCraftHub: Your Learning Management Platform</title>
+    <style>
+      :root {
+        --primary: #8B5CF6;
+        --primary-dark: #7C3AED;
+        --primary-light: #EDE9FE;
+        --success: #F59E0B;
+        --success-dark: #D97706;
+        --danger: #EF4444;
+        --danger-dark: #DC2626;
+        --bg: #F5F3FF;
+        --card-bg: #FFFFFF;
+        --text: #1F2937;
+        --text-muted: #6B7280;
+        --border: #E5E7EB;
+        --shadow: 0 4px 6px -1px rgba(139, 92, 246, 0.1), 0 2px 4px -1px rgba(139, 92, 246, 0.06);
+        --shadow-lg: 0 10px 15px -3px rgba(139, 92, 246, 0.15), 0 4px 6px -2px rgba(139, 92, 246, 0.05);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        min-height: 100vh;
+        padding: 16px;
+      }
+
+      .app {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      header {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        color: #fff;
+        padding: 28px 24px;
+        border-radius: 14px;
+        margin-bottom: 20px;
+        box-shadow: var(--shadow-lg);
+      }
+
+      header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      header p {
+        opacity: 0.9;
+        margin-top: 4px;
+        font-size: 0.95rem;
+      }
+
+      .panel {
+        background: var(--card-bg);
+        border-radius: 14px;
+        padding: 22px;
+        box-shadow: var(--shadow);
+        margin-bottom: 20px;
+      }
+
+      .panel h2 {
+        font-size: 1.15rem;
+        margin-bottom: 16px;
+        color: var(--primary-dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .panel h2::before {
+        content: "";
+        display: inline-block;
+        width: 6px;
+        height: 20px;
+        background: var(--primary);
+        border-radius: 3px;
+      }
+
+      form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .field.full {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      label .req {
+        color: var(--danger);
+        margin-left: 2px;
+      }
+
+      input, textarea, select {
+        font-family: inherit;
+        font-size: 0.95rem;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--text);
+        transition: border-color 0.15s, box-shadow 0.15s;
+        width: 100%;
+      }
+
+      input:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px var(--primary-light);
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .form-actions {
+        grid-column: 1 / -1;
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+
+      button {
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 10px 18px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.15s, transform 0.05s, box-shadow 0.15s;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      button:active {
+        transform: translateY(1px);
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      .btn-primary:hover:not(:disabled) {
+        background: var(--primary-dark);
+        box-shadow: var(--shadow);
+      }
+
+      .btn-success {
+        background: var(--success);
+        color: #fff;
+      }
+      .btn-success:hover:not(:disabled) {
+        background: var(--success-dark);
+      }
+
+      .btn-danger {
+        background: var(--danger);
+        color: #fff;
+      }
+      .btn-danger:hover:not(:disabled) {
+        background: var(--danger-dark);
+      }
+
+      .btn-ghost {
+        background: var(--primary-light);
+        color: var(--primary-dark);
+      }
+      .btn-ghost:hover:not(:disabled) {
+        background: #DDD6FE;
+      }
+
+      .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 14px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .toolbar h2 {
+        margin: 0;
+      }
+
+      .count {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        background: var(--primary-light);
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-weight: 600;
+        color: var(--primary-dark);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+
+      thead th {
+        text-align: left;
+        padding: 12px 10px;
+        background: var(--primary-light);
+        color: var(--primary-dark);
+        font-weight: 700;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-bottom: 2px solid var(--border);
+      }
+
+      thead th:first-child { border-top-left-radius: 8px; }
+      thead th:last-child { border-top-right-radius: 8px; }
+
+      tbody td {
+        padding: 12px 10px;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+      }
+
+      tbody tr:hover {
+        background: #FAFAFE;
+      }
+
+      .course-name {
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      .course-desc {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+        margin-top: 4px;
+        max-width: 320px;
+      }
+
+      .course-meta {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: 4px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+      }
+
+      .badge.not-started {
+        background: #F3F4F6;
+        color: #4B5563;
+      }
+      .badge.in-progress {
+        background: #FEF3C7;
+        color: #92400E;
+      }
+      .badge.completed {
+        background: #D1FAE5;
+        color: #065F46;
+      }
+
+      .actions {
+        display: flex;
+        gap: 6px;
+        white-space: nowrap;
+      }
+
+      .state {
+        padding: 40px 20px;
+        text-align: center;
+        color: var(--text-muted);
+      }
+
+      .spinner {
+        width: 28px;
+        height: 28px;
+        border: 3px solid var(--primary-light);
+        border-top-color: var(--primary);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        margin: 0 auto 12px;
+      }
+
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+
+      .empty {
+        color: var(--text-muted);
+      }
+      .empty .icon {
+        font-size: 2.5rem;
+        margin-bottom: 8px;
+      }
+
+      .toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 360px;
+      }
+
+      .toast-item {
+        padding: 12px 16px;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 0.9rem;
+        font-weight: 500;
+        box-shadow: var(--shadow-lg);
+        animation: slideIn 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .toast-item.success { background: var(--success); }
+      .toast-item.error { background: var(--danger); }
+      .toast-item.info { background: var(--primary); }
+
+      @keyframes slideIn {
+        from { transform: translateX(120%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(31, 41, 55, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        padding: 16px;
+      }
+
+      .overlay.active {
+        display: flex;
+      }
+
+      .modal {
+        background: var(--card-bg);
+        border-radius: 14px;
+        padding: 24px;
+        width: 100%;
+        max-width: 520px;
+        box-shadow: var(--shadow-lg);
+        animation: pop 0.18s ease;
+      }
+
+      @keyframes pop {
+        from { transform: scale(0.96); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+      }
+
+      .modal h2 {
+        margin-bottom: 18px;
+        color: var(--primary-dark);
+        font-size: 1.2rem;
+      }
+
+      .modal form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .field-error {
+        color: var(--danger);
+        font-size: 0.8rem;
+        margin-top: -2px;
+      }
+
+      input.invalid, textarea.invalid, select.invalid {
+        border-color: var(--danger);
+      }
+
+      @media (max-width: 720px) {
+        form {
+          grid-template-columns: 1fr;
+        }
+        .table-wrap {
+          overflow-x: auto;
+        }
+        table {
+          min-width: 600px;
+        }
+        header h1 {
+          font-size: 1.4rem;
+        }
+      }
+    </style>
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1>CodeCraftHub: Your Learning Management Platform</h1>
+        <p>Plan, track, and complete your learning journey</p>
+      </header>
+
+      <section class="panel">
+        <h2>Add New Course</h2>
+        <form id="addForm" novalidate>
+          <div class="field">
+            <label for="name">Course Name<span class="req">*</span></label>
+            <input type="text" id="name" name="name" placeholder="e.g. JavaScript Fundamentals" />
+            <div class="field-error" data-error-for="name"></div>
+          </div>
+          <div class="field">
+            <label for="target_date">Target Date<span class="req">*</span></label>
+            <input type="date" id="target_date" name="target_date" />
+            <div class="field-error" data-error-for="target_date"></div>
+          </div>
+          <div class="field">
+            <label for="status">Status<span class="req">*</span></label>
+            <select id="status" name="status">
+              <option value="">Select status</option>
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+            <div class="field-error" data-error-for="status"></div>
+          </div>
+          <div class="field full">
+            <label for="description">Description<span class="req">*</span></label>
+            <textarea id="description" name="description" placeholder="Brief description of what you'll learn"></textarea>
+            <div class="field-error" data-error-for="description"></div>
+          </div>
+          <div class="form-actions">
+            <button type="reset" class="btn-ghost">Clear</button>
+            <button type="submit" class="btn-primary">Add Course</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="toolbar">
+          <h2>Your Courses</h2>
+          <span id="count" class="count" style="display:none"></span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Target Date</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="courseBody"></tbody>
+          </table>
+        </div>
+        <div id="stateBox"></div>
+      </section>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="overlay" id="overlay">
+      <div class="modal">
+        <h2>Edit Course</h2>
+        <form id="editForm" novalidate>
+          <input type="hidden" id="editId" />
+          <div class="field">
+            <label for="editName">Course Name<span class="req">*</span></label>
+            <input type="text" id="editName" />
+            <div class="field-error" data-error-for="editName"></div>
+          </div>
+          <div class="field">
+            <label for="editTargetDate">Target Date<span class="req">*</span></label>
+            <input type="date" id="editTargetDate" />
+            <div class="field-error" data-error-for="editTargetDate"></div>
+          </div>
+          <div class="field">
+            <label for="editStatus">Status<span class="req">*</span></label>
+            <select id="editStatus">
+              <option value="Not Started">Not Started</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="editDescription">Description<span class="req">*</span></label>
+            <textarea id="editDescription"></textarea>
+            <div class="field-error" data-error-for="editDescription"></div>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-ghost" id="cancelEdit">Cancel</button>
+            <button type="submit" class="btn-success">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const API_URL = "http://localhost:5000/api/courses";
+
+      const addForm = document.getElementById("addForm");
+      const editForm = document.getElementById("editForm");
+      const overlay = document.getElementById("overlay");
+      const courseBody = document.getElementById("courseBody");
+      const stateBox = document.getElementById("stateBox");
+      const countEl = document.getElementById("count");
+      const toastBox = document.getElementById("toast");
+
+      let isLoading = false;
+
+      function toast(message, type = "info") {
+        const el = document.createElement("div");
+        el.className = `toast-item ${type}`;
+        el.textContent = message;
+        toastBox.appendChild(el);
+        setTimeout(() => {
+          el.style.transition = "opacity 0.3s, transform 0.3s";
+          el.style.opacity = "0";
+          el.style.transform = "translateX(120%)";
+          setTimeout(() => el.remove(), 300);
+        }, 3200);
+      }
+
+      function renderState(html) {
+        stateBox.innerHTML = html;
+      }
+
+      function showLoading(message = "Loading courses...") {
+        renderState(`<div class="state"><div class="spinner"></div>${message}</div>`);
+      }
+
+      function showError(message) {
+        renderState(`<div class="state" style="color:var(--danger)">${escapeHtml(message)}</div>`);
+      }
+
+      function showEmpty() {
+        renderState(`<div class="state empty"><div class="icon">📚</div>No courses yet. Add your first course above!</div>`);
+      }
+
+      function clearState() {
+        renderState("");
+      }
+
+      function escapeHtml(str) {
+        if (str == null) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function formatDate(value) {
+        if (!value) return "—";
+        const d = new Date(value);
+        if (isNaN(d.getTime())) return escapeHtml(value);
+        return d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+      }
+
+      function statusClass(status) {
+        return (status || "").toLowerCase().replace(/\s+/g, "-");
+      }
+
+      function clearErrors(form) {
+        form.querySelectorAll(".field-error").forEach((e) => (e.textContent = ""));
+        form.querySelectorAll(".invalid").forEach((e) => e.classList.remove("invalid"));
+      }
+
+      function setError(form, field, message) {
+        const errEl = form.querySelector(`[data-error-for="${field}"]`);
+        if (errEl) errEl.textContent = message;
+        const input = form.querySelector(`[name="${field}"], #${field}`);
+        if (input) input.classList.add("invalid");
+      }
+
+      function validate(form, fields) {
+        clearErrors(form);
+        let valid = true;
+        const values = {};
+        for (const f of fields) {
+          const el = form.querySelector(`[name="${f}"], #${f}`);
+          const value = el ? el.value.trim() : "";
+          if (!value) {
+            setError(form, f, "This field is required");
+            valid = false;
+          }
+          values[f] = value;
+        }
+        return valid ? values : null;
+      }
+
+      function statusBadge(status) {
+        return `<span class="badge ${statusClass(status)}">${escapeHtml(status || "")}</span>`;
+      }
+
+      function renderCourses(courses) {
+        if (!courses || courses.length === 0) {
+          courseBody.innerHTML = "";
+          countEl.style.display = "none";
+          showEmpty();
+          return;
+        }
+        clearState();
+        countEl.style.display = "inline-block";
+        countEl.textContent = `${courses.length} course${courses.length > 1 ? "s" : ""}`;
+        courseBody.innerHTML = courses.map(renderRow).join("");
+      }
+
+      function renderRow(c) {
+        const id = c.id != null ? escapeHtml(c.id) : "";
+        return `
+          <tr data-id="${id}">
+            <td>
+              <div class="course-name">${escapeHtml(c.name)}</div>
+              <div class="course-desc">${escapeHtml(c.description)}</div>
+            </td>
+            <td>${formatDate(c.target_date)}</td>
+            <td>${statusBadge(c.status)}</td>
+            <td><span class="course-meta">${formatDate(c.created_at)}</span></td>
+            <td>
+              <div class="actions">
+                <button class="btn-ghost btn-sm" data-action="edit" data-id="${id}">Edit</button>
+                <button class="btn-danger btn-sm" data-action="delete" data-id="${id}">Remove</button>
+              </div>
+            </td>
+          </tr>`;
+      }
+
+      async function apiRequest(method, path, body) {
+        const opts = { method, headers: { "Content-Type": "application/json" } };
+        if (body) opts.body = JSON.stringify(body);
+        const res = await fetch(`${API_URL}${path}`, opts);
+        let data = null;
+        const text = await res.text();
+        if (text) {
+          try { data = JSON.parse(text); } catch { data = text; }
+        }
+        if (!res.ok) {
+          const msg = (data && data.error) || (data && data.message) || `Request failed (${res.status})`;
+          throw new Error(msg);
+        }
+        return data;
+      }
+
+      async function fetchCourses() {
+        if (isLoading) return;
+        isLoading = true;
+        showLoading();
+        try {
+           const data = await apiRequest("GET", "");
+           const coursesArray = Array.isArray(data) ? data : (data.courses || []);
+           renderCourses(coursesArray);
+        } catch (err) {
+          courseBody.innerHTML = "";
+          countEl.style.display = "none";
+          showError(`Could not load courses: ${err.message}`);
+        } finally {
+          isLoading = false;
+        }
+      }
+
+      addForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const values = validate(addForm, ["name", "description", "target_date", "status"]);
+        if (!values) {
+          toast("Please fill in all required fields", "error");
+          return;
+        }
+        const submitBtn = addForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Saving...";
+        try {
+          await apiRequest("POST", "", values);
+          toast("Course added successfully", "success");
+          addForm.reset();
+          clearErrors(addForm);
+          await fetchCourses();
+        } catch (err) {
+          toast(`Failed to add course: ${err.message}`, "error");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Add Course";
+        }
+      });
+
+      addForm.addEventListener("reset", () => clearErrors(addForm));
+
+      courseBody.addEventListener("click", async (e) => {
+        const btn = e.target.closest("button[data-action]");
+        if (!btn) return;
+        const action = btn.dataset.action;
+        const id = btn.dataset.id;
+        if (action === "edit") openEditModal(id);
+        else if (action === "delete") deleteCourse(id, btn);
+      });
+
+      function openEditModal(id) {
+        const row = courseBody.querySelector(`tr[data-id="${CSS.escape(id)}"]`);
+        if (!row) return;
+        const name = row.querySelector(".course-name").textContent;
+        const desc = row.querySelector(".course-desc").textContent;
+        const targetDate = formatDateISO(row.children[1].textContent);
+        const statusText = row.querySelector(".badge").textContent.trim();
+
+        document.getElementById("editId").value = id;
+        document.getElementById("editName").value = name;
+        document.getElementById("editDescription").value = desc;
+        document.getElementById("editTargetDate").value = targetDate;
+        document.getElementById("editStatus").value = statusText;
+        clearErrors(editForm);
+        overlay.classList.add("active");
+      }
+
+      function formatDateISO(display) {
+        if (!display || display === "—") return "";
+        const d = new Date(display);
+        if (isNaN(d.getTime())) return "";
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      document.getElementById("cancelEdit").addEventListener("click", () => {
+        overlay.classList.remove("active");
+      });
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) overlay.classList.remove("active");
+      });
+
+      editForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("editId").value;
+        const values = validate(editForm, ["editName", "editDescription", "editTargetDate", "editStatus"]);
+        if (!values) {
+          toast("Please fill in all required fields", "error");
+          return;
+        }
+        const payload = {
+          name: values.editName,
+          description: values.editDescription,
+          target_date: values.editTargetDate,
+          status: values.editStatus,
+        };
+        const submitBtn = editForm.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Saving...";
+        try {
+          await apiRequest("PUT", `/${encodeURIComponent(id)}`, payload);
+          toast("Course updated successfully", "success");
+          overlay.classList.remove("active");
+          await fetchCourses();
+        } catch (err) {
+          toast(`Failed to update course: ${err.message}`, "error");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Save Changes";
+        }
+      });
+
+      async function deleteCourse(id, btn) {
+        if (!confirm("Are you sure you want to remove this course?")) return;
+        const original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = "Removing...";
+        try {
+          await apiRequest("DELETE", `/${encodeURIComponent(id)}`);
+          toast("Course removed", "success");
+          await fetchCourses();
+        } catch (err) {
+          toast(`Failed to remove course: ${err.message}`, "error");
+          btn.disabled = false;
+          btn.textContent = original;
+        }
+      }
+
+      fetchCourses();
+    </script>
+  </body>
+</html>
